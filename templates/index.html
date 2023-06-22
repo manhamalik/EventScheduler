@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Scheduler</title>
+    <style>
+        body {
+            background-color: #dddddd;
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 15px;
+        }
+
+        .container {
+            margin: 20px auto;
+            max-width: 300px;
+            padding: 20px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 5px;
+            padding-top: 20px;
+            padding-bottom: 0.1px;
+        }
+
+        .events-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            padding-top: 5px;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form label {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        form input[type="date"],
+        form input[type="time"],
+        form input[type="text"],
+        form input[type="submit"],
+        form textarea {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 250px;
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        /*  static width for date and description columns */
+        td:nth-child(1), th:nth-child(1),
+        td:nth-child(2), th:nth-child(2){
+            width: 100px;
+        }
+        td:nth-child(3), th:nth-child(3) {
+            width: 300px;
+        }
+
+        /* Add Event button styles */
+        input[type="submit"] {
+            background-color: #5EAAF5;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            width: 50%;
+            height: 30px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 14px;
+        }
+
+        /* Custom styles for description textarea */
+        textarea {
+            resize: vertical; /* Allow vertical resizing */
+            max-width: 100%; /* Ensure it stays within the container */
+            width: 100%; /* Take up the full width */
+        }
+    </style>
+</head>
+<body>
+    <h1>Event Scheduler</h1>
+    <div class="container">
+        <div class="form-container">
+            <form action="/add_event" method="post">
+                <label for="date">Date:</label>
+                <input type="date" name="date" required>
+                <label for="time">Time:</label>
+                <input type="time" name="time" required>
+                <label for="location">Location:</label>
+                <input type="text" name="location" required>
+                <label for="description">Description:</label>
+                <textarea name="description" rows="4" required></textarea>
+                <input type="submit" value="Add Event">
+            </form>
+            {% if message %}
+                <p style="text-align: center;">{{ message }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="events-container">
+        <center><h2>Events</h2></center>
+        <table>
+            <thead>
+                <tr>
+                    <th style="background-color: #5EAAF5; color: white;">Date</th>
+                    <th style="background-color: #5EAAF5; color: white;">Time</th>
+                    <th style="background-color: #5EAAF5; color: white;">Location</th>
+                    <th style="background-color: #5EAAF5; color: white;">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if events %}
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.date }}</td>
+                            <td>{{ event.time }}</td>
+                            <td>{{ event.location }}</td>
+                            <td>{{ event.description }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">No events available.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
